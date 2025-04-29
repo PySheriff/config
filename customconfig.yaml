@@ -1,6 +1,6 @@
 receivers:
   snmp:
-    collection_interval: 60s
+    collection_interval: 20s
     endpoint: udp://localhost:161
     version: v2c
     community: public
@@ -68,3 +68,29 @@ receivers:
             resource_attributes:
               - otel-snmp.sysName
               - otel-snmp.sysDescr
+
+exporters:
+  # Logs / traces → Elastic
+  elasticsearch:
+    endpoint: https://elastic.example.com:9200
+    mapping:
+      mode: otel
+    auth:
+      authenticator: basicauth
+
+extensions:
+  basicauth:
+    client_auth:
+      username: elastic
+      password: changeme
+
+service:
+  extensions: [basicauth]
+
+  pipelines:
+
+    metrics:
+      receivers:  [snmp]
+      processors: [batch]
+
+
