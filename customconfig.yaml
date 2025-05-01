@@ -1,5 +1,3 @@
-https://cloud.elastic.co/deployments/8e5f5a9c85294b328a56b59ed518c47a 
-
 receivers:
   snmp:
     collection_interval: 20s
